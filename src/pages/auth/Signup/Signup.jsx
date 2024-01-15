@@ -1,10 +1,13 @@
 import { AuthenticationLayout } from '../../../layouts/AuthenticationLayout';
-import { Button, Card, Label, TextInput } from 'flowbite-react';
+import { Button, Card, Label, TextInput,Spinner } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import axios from "axios";
+import { Toaster, toast } from 'react-hot-toast';
+import { useState } from 'react';
+
 
 
 
@@ -17,6 +20,8 @@ const schema = z.object({
 
 
 const Signup = () => {
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const {
         handleSubmit,
@@ -33,7 +38,8 @@ const Signup = () => {
 
     const onSubmit = async (data) => {
         try {
-            
+            setIsLoading(!isLoading)
+            toast.success("Signup Successfully")
             const response = await axios.post('http://localhost:3000/users/signup', {
               username: data.email,  
               password: data.password,
@@ -41,9 +47,12 @@ const Signup = () => {
             });
         
             console.log(response.data); // Log the response from the server
+
+            setIsLoading(!isLoading)
         
             // Handle success or redirect to another page if needed
           } catch (error) {
+            toast.error("Something went wrong")
             console.error('Error during signup:', error.message);
             // Handle error, display a message to the user, etc.
           }
@@ -51,6 +60,7 @@ const Signup = () => {
 
     return (
         <AuthenticationLayout>
+             <Toaster />
             <Card className="max-w-sm w-96">
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
@@ -111,10 +121,14 @@ const Signup = () => {
                             )}
                         />
                     </div>
+                    {isLoading ? <Button disabled>
+                        <Spinner aria-label="Spinner button example" size="sm" />
+                        <span className="pl-3">Loading...</span>
+                        </Button> :
 
                     <Button type="submit">
                         Submit
-                    </Button>
+                    </Button>}
 
                 </form>
                 <div className="flex flex-col items-center gap-2">

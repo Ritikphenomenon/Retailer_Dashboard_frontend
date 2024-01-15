@@ -1,11 +1,13 @@
-import { Button, Card,  Label, TextInput } from 'flowbite-react';
+import { Button, Card,  Label, TextInput,Spinner } from 'flowbite-react';
 import { AuthenticationLayout } from '../../../layouts/AuthenticationLayout'
 import { Link } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../../utils/axios';
+import { useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
 
 
 const schema = z.object({
@@ -15,7 +17,7 @@ const schema = z.object({
 
 
 const Login = () => {
-
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate();
 
     const {
@@ -32,22 +34,31 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:3000/users/login', {
-              username: data.username,
-              password: data.password,
+
+           
+            const response = await api.post('/users/login', {
+                username: data.username,
+                password: data.password,
             });
-      
-            console.log(response.data);
-      
+
+            localStorage.setItem('token', response.data.token);
+
             // Handle success, such as storing the token in local storage and redirecting
             // For example:
             // localStorage.setItem('token', response.data.token);
             // Redirect to a different page
-            navigate('/home');
 
-          } catch (error) {
+            setIsLoading(!isLoading)
+            toast.success("Login Successfully")
+            setTimeout(() => {
+                navigate('/home');
+            }, 1000);
+
+        } catch (error) {
+            // check error.response.status to see if the error is due to invalid credentials
+            toast.error("Something went wrong")
             console.error('Error during login:', error.message);
-          }
+        }
     }
 
 
@@ -55,6 +66,9 @@ const Login = () => {
     return (
 
         <AuthenticationLayout>
+
+          <Toaster />
+
             <Card className="max-w-sm w-96">
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
                     <div>
@@ -91,10 +105,17 @@ const Login = () => {
                         />
                     </div>
 
+                    
+                {/* button with spinner */}
+
+                {isLoading ? <Button disabled>
+                        <Spinner aria-label="Spinner button example" size="sm" />
+                        <span className="pl-3">Loading...</span>
+                     </Button>:
                     <Button type="submit">
                         Submit
                     </Button>
-
+}
                 </form>
                 <div className="flex flex-col items-center gap-2">
 

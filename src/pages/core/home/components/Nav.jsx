@@ -2,6 +2,7 @@ import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import { FaShoppingCart } from "react-icons/fa";
 import { useGlobalContext } from '../../../../utils/Context';
 
+
 export const Nav = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useGlobalContext();
 

@@ -1,11 +1,25 @@
 import { Card } from "flowbite-react";
 import { useGlobalContext } from '../../../../utils/Context'
-import { useId } from "react";
+import { useId ,useState} from "react";
+import { toast } from 'react-hot-toast'
+
 
 
 export const ProductCard = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const { handleAddItem } = useGlobalContext()
     const id = useId()
+
+    const handleCart = (item) => {
+        handleAddItem(item)
+        setTimeout(() => {
+            setIsLoading(!isLoading)
+        }, 500)
+        setIsLoading(!isLoading)
+        toast.success('Item added to cart')
+    }
+
+
 
     return (
         <Card
@@ -22,7 +36,7 @@ export const ProductCard = () => {
             <div className="flex items-center justify-between">
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
                 <button
-                    onClick={() => handleAddItem({
+                    onClick={() => handleCart({
                         id: id,
                         name: 'Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport',
                         quantity: 1,
