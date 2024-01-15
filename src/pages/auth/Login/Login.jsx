@@ -33,9 +33,7 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         try {
-
             setIsLoading(!isLoading)
-            toast.success("Login Successfully")
             const response = await api.post('/users/login', {
                 username: data.username,
                 password: data.password,
@@ -49,9 +47,10 @@ const Login = () => {
             // Redirect to a different page
 
             setIsLoading(!isLoading)
+            toast.success("Login Successfully")
             setTimeout(() => {
                 navigate('/home');
-            }, 1000);
+            }, 500);
 
         } catch (error) {
             // check error.response.status to see if the error is due to invalid credentials
@@ -71,7 +70,7 @@ const Login = () => {
             <Card
                 className="max-w-sm w-96 z-10 rounded-none">
                 <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Welcome to Naptool
+                    Welcome to Apna Market
                 </h5>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 my-3">
                     <div>
@@ -85,7 +84,7 @@ const Login = () => {
                             rules={{ required: true }}
                             render={({ field, formState: { errors } }) => (
                                 <>
-                                    <TextInput color="black" id="username" placeholder='username' {...field} />
+                                    <TextInput  color="black" id="username" placeholder='username' {...field} />
                                     {errors.username && <span className='text-red-500 text-xs font-normal'>{errors.username.message}</span>}
                                 </>
                             )}
@@ -94,7 +93,7 @@ const Login = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="password1" value="Your password" />
+                            <Label   htmlFor="password1" value="Your password" />
                         </div>
                         <Controller
                             name="password"
@@ -102,7 +101,7 @@ const Login = () => {
                             rules={{ required: true }}
                             render={({ field, formState: { errors } }) => (
                                 <>
-                                    <TextInput color="black" id="password1" placeholder='password' {...field} />
+                                    <TextInput type="password" color="black" id="password1" placeholder='password' {...field} />
                                     {errors.password && <span className='text-red-500 text-xs font-normal'>{errors.password.message}</span>}
                                 </>
                             )}

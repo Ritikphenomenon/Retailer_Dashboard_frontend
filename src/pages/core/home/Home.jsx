@@ -1,6 +1,6 @@
 import { CartSidebar } from './components/CartSidebar'
 import { Nav } from "./components/Nav";
-import { useGlobalContext } from '../../../utils/Context';
+//import { useGlobalContext } from '../../../utils/Context';
 
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';

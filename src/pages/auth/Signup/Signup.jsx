@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { api } from '../../../utils/axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,7 +22,8 @@ const schema = z.object({
 
 
 const Signup = () => {
-
+    
+    const navigate=useNavigate();
     const [isLoading, setIsLoading] = useState(false)
 
     const {
@@ -40,7 +42,7 @@ const Signup = () => {
     const onSubmit = async (data) => {
         try {
             setIsLoading(!isLoading)
-            toast.success("Signup Successfully")
+            // eslint-disable-next-line no-unused-vars
             const response = await api.post('/users/signup', {
                 username: data.email,
                 password: data.password,
@@ -48,8 +50,13 @@ const Signup = () => {
             });
 
             // Log the response from the server
-
             setIsLoading(!isLoading)
+            toast.success("Signup Successfully")
+
+           
+            setTimeout(() => {
+                navigate('/');
+            }, 500);
 
             // Handle success or redirect to another page if needed
         } catch (error) {
@@ -63,8 +70,11 @@ const Signup = () => {
         <AuthenticationLayout>
             <Toaster />
             <Card className="max-w-sm w-96 z-10 rounded-none">
+
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+
                     <div>
+
                         <div className="mb-2 block">
                             <Label htmlFor="email" value="Email" />
                         </div>
@@ -75,7 +85,7 @@ const Signup = () => {
                             rules={{ required: true }}
                             render={({ field, formState: { errors } }) => (
                                 <>
-                                    <TextInput id="email" type='email' placeholder='Email' color="gray" {...field} />
+                                    <TextInput id="email"  placeholder='Email' color="gray" {...field} />
                                     {errors.email && <span className='text-red-500 text-xs font-normal'>{errors.email.message}</span>}
                                 </>
                             )}
@@ -96,7 +106,7 @@ const Signup = () => {
                             rules={{ required: true }}
                             render={({ field, formState: { errors } }) => (
                                 <>
-                                    <TextInput id="password1" placeholder='Password' color="black" {...field} />
+                                    <TextInput type="password" id="password1" placeholder='Password' color="black" {...field} />
                                     {errors.password && <span className='text-red-500 text-xs font-normal'>{errors.password.message}</span>}
                                 </>
                             )}
@@ -113,7 +123,7 @@ const Signup = () => {
                             rules={{ required: true }}
                             render={({ field, formState: { errors } }) => (
                                 <>
-                                    <TextInput id="password2" placeholder='Confirm Password' color="black" {...field} />
+                                    <TextInput type="password" id="password2" placeholder='Confirm Password' color="black" {...field} />
                                     {errors.password && <span className='text-red-500 text-xs font-normal'>{errors.password.message}</span>}
                                 </>
                             )}
@@ -136,7 +146,7 @@ const Signup = () => {
                             <Spinner aria-label="Spinner button example" size="sm" />
                             <span className="pl-3">Loading...</span>
                         </Button> : <Button color='primary' type="submit">
-                            Login
+                            Signup
                         </Button>}
 
                     </Flowbite>
