@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import axios from "axios";
+import { api } from '../../../utils/axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useState } from 'react';
 
@@ -41,7 +41,7 @@ const Signup = () => {
         try {
             setIsLoading(!isLoading)
             toast.success("Signup Successfully")
-            const response = await axios.post('http://localhost:3000/users/signup', {
+            const response = await api.post('/users/signup', {
                 username: data.email,
                 password: data.password,
                 repassword: data.cpassword,
