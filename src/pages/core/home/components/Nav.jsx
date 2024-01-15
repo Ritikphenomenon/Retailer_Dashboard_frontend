@@ -1,14 +1,17 @@
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
 import { FaShoppingCart } from "react-icons/fa";
 import { useGlobalContext } from '../../../../utils/Context';
+import { api } from '../../../../utils/axios';
+
 
 export const Nav = () => {
     const { isSidebarOpen, setIsSidebarOpen } = useGlobalContext();
+    // const 
 
     return (
-        <Navbar fluid rounded>
+        <Navbar className='fixed w-full z-10' fluid rounded>
             <Navbar.Brand href="/home">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Ecommerce</span>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">E-kart</span>
             </Navbar.Brand>
             <div className="flex md:order-2">
                 <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -27,7 +30,9 @@ export const Nav = () => {
                     </Dropdown.Header>
                     <Dropdown.Item>Settings</Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item>Sign out</Dropdown.Item>
+                    <Dropdown.Item onClick={()=>{
+
+                    }}>Sign out</Dropdown.Item>
                 </Dropdown>
                 <Navbar.Toggle />
             </div>
